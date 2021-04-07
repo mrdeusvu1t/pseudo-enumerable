@@ -14,7 +14,12 @@ namespace IEEE754FormatTask
         /// <returns>A string representation of a double type number in the IEEE754 format.</returns>
         public static string GetIEEE754Format(this double number)
         {
-            throw new NotImplementedException("You need to implement this function.");
+            var str = BitConverter.ToInt64(BitConverter.GetBytes(number), 0);
+            var sign = str >> 63 & 0x01;
+            var exponent = str >> 52 & 0x7FF;
+            var mantissa = str & 0x1FFFFFFFFFFFFF;
+
+            return Convert.ToString(str, 2).PadLeft(64, '0');
         }
     }
 }
